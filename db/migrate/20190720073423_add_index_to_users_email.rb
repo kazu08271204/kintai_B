@@ -1,5 +1,5 @@
-class AddIndexToUsersEmail < ActiveRecord::Migration[5.1]
+class AddIndexToUsersEmail < ActiveRecord::Migration[5.0]
   def change
-    add_index :users, :email, unique: true # 一意性
+    add_index :users, :email, unique: true
   end
 end
