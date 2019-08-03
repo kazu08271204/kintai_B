@@ -6,5 +6,7 @@ class User < ApplicationRecord
                     format: { with: VALID_EMAIL_REGEX}, # メールアドレスの有効性
                     uniqueness: true # 一意性
   has_secure_password # ハッシュ化しデータベースに保存
-  validates :password, presence: true, length: { minimum: 6 }
+                      #has_secure_passwordがオブジェクト生成時に存在性を検証
+  
+  validates :password, presence: true, length: { minimum: 6 }, allow_nil: true
 end
