@@ -4,13 +4,16 @@
   <table class= " table table-bordered table-condensed user-table">
     <tr>
       <td>時間管理表</td>
-      <td>指定勤務時間</td>
-      <td>基本時間</td>
+      <td>指定勤務時間<%= format_basic_info(@user.work_time) %></td>
+      <td>基本時間<%= format_basic_info(@user.basic_time) %></td>
+       <!--ヘルパーメソッドの引数に@user.カラム名でそれぞれ値を指定し、文字列として返ってきた値を表示 -->
       <td>月の初日</td>
     </tr>
     
     <tr>
-      <td>所属</td>
+      <td>所属： <%= @user.department.present? ? @user.department : "未設定" %></td>
+        <!-- @userのユーザーオブジェクトにdepartmentが存在するか？ -->
+       
       <td>氏名：<%= @user.name %></td>
       <td>出勤日数</td>
       <td>月の末日</td>
@@ -18,8 +21,6 @@
     
     </table>
 </div>
-
-
 
 
 
