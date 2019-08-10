@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy] 
     #index,show,edit,updateアクションが実行される直前のみ、logged_in_userが実行
   before_action :correct_user, only: [:edit, :update]
- 
+  before_action :admin_user,     only: [:destroy, :edit_basic_info, :update_basic_info]
   
   def index
     @users = User.paginate(page: params[:page])
@@ -33,6 +33,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    
   end
   
   def update
@@ -49,8 +50,20 @@ class UsersController < ApplicationController
     flash[:success] = "#{@user.name}のデーターを削除しました。"
     redirect_to users_url
   end
+  
+  def edit_basic_info
+    @user = User.find(params[:id])
+  end
 
-
+  def update_basic_info
+    @user = User.find(params[:id])
+    if @user.update_attributes(basic_info_params)
+      flash[:success] = "基本情報を更新しました。"
+      redirect_to @user   
+    else
+      render 'edit_basic_info'
+    end
+  end
 
   private
   
@@ -58,7 +71,13 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name, :email, :department, :password, :password_confirmation)
   end
   
-   # beforeフィルター
+  def basic_info_params
+    params.require(:user).permit(:basic_time, :work_time)
+  end
+  
+  
+ 
+  # beforeフィルター
 
   # paramsハッシュからユーザーを取得します。
   def set_user
