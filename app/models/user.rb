@@ -1,5 +1,8 @@
 class User < ApplicationRecord
 
+  has_many :attendances, dependent: :destroy
+  #Attendanceモデルに対して1対多の関連性,
+  #Userモデルデータが削除されると、関連するAttendanceモデルのデータもまとめて削除される
   before_save { self.email = email.downcase }
   validates :name, presence: true, length: { maximum: 50 } # 存在性、文字数の検証
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i # メールアドレスの正規表現
