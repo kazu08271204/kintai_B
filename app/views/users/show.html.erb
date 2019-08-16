@@ -1,7 +1,8 @@
 <% provide(:title, @user.name) %>
 
 <div>
-  <table class= " table table-bordered table-condensed user-table">
+  <table class= "table table-bordered table-condensed user-table">
+                       <!--テーブルの枠組みに線をつける,行の幅を狭める-->
     <tr>
       <td>時間管理表</td>
       <td>指定勤務時間<%= format_basic_info(@user.work_time) %></td>
@@ -19,9 +20,41 @@
       <td>月の末日</td>
     </tr>
     
-    </table>
+  </table>
 </div>
 
+<div>
+  <table class = "table table-bordered table-condensed table-hover" id= "table-attendances">
+    
+    <thead> <!--表のヘッダ部分としてグループ化-->
+      <tr> <!--Table Rowの略でテーブル（表）の横方向の一行を定義-->
+        <!--<TH>はTable Headerの略で、セルの内容が｢見出し｣となるヘッダセルを作成-->
+        <th>日付</th>
+        <th>曜日</th>
+        <th>勤怠登録</th>
+        <th>出勤時間</th>
+        <th>退勤時間</th>
+        <th>在社時間</th>
+        <th>備考</th>
+      </tr>
+    </thead>  
+    
+    <tbody> <!--表の行（水平方向）をグループ化するタグ-->
+      <% (@first_day..@last_day).each do |day| %>
+        <tr>
+          <td><%= l(day, format: :short) %></td>
+          <td><%= $days_of_the_week[day.wday] %></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      <% end %>  
+    </tbody>
+  
+  </table>
+</div>
 
 
 
