@@ -3,6 +3,34 @@ class ApplicationController < ActionController::Base
   include SessionsHelper #どのコントローラでもヘルパーに定義したメソッドが使える
 
   $days_of_the_week = %w{日 月 火 水 木 金 土}
+  
+   # ページ出力前に1ヶ月分のデータの存在を確認・セットします。
+   
+  def set_one_month
+    @first_day = Date.current.beginning_of_month
+    @last_day = @first_day.end_of_month
+    one_month = [*@first_day..@last_day]
+    #対象の月の日数を代入
+    @attendances = @user.attendances.where(worked_on: @first_day..@last_day)
+    #ユーザーに紐づく一か月のレコードを検索し取得します。
+    
+    #unless文は条件式がfalseと評価された場合のみ内部の処理を実行
+    
+    unless one_month.count == @attendances.count
+    #1ヶ月分の日付の件数と勤怠データの件数(日数)が一致するか評価します。
+      ActiveRecord::Base.transaction do
+      #トランザクションを開始します。
+      #(指定したブロックにあるデータベースへの操作が全部成功することを保証する為の機能)
+        one_month.each { |day| @user.attendances.create!(worked_on: day)}
+        #繰り返し処理により一か月分の勤怠データを生成します。
+      end
+    end
+    
+  rescue ActiveRecord::RecordInvalid
+    flash[:denger] = "ページ情報の取得に失敗しました、再アクセスしてください。"
+    redirect_to root_url  
+    
+  end
 
 end
 
