@@ -4,7 +4,8 @@
   <table class= "table table-bordered table-condensed user-table">
                        <!--テーブルの枠組みに線をつける,行の幅を狭める-->
     <tr>
-      <td>時間管理表</td>
+      <td>【<%= l(@first_day, format: :middle) %>】時間管理表</td>
+                                       <!--locales/ja.ymlより-->
       <td>指定勤務時間<%= format_basic_info(@user.work_time) %></td>
       <td>基本時間<%= format_basic_info(@user.basic_time) %></td>
        <!--ヘルパーメソッドの引数に@user.カラム名でそれぞれ値を指定し、文字列として返ってきた値を表示 -->
@@ -21,6 +22,11 @@
     </tr>
     
   </table>
+</div>
+
+<div class = "btn-users-show">
+  <%= link_to "⇦ 前月へ", user_path(date: @first_day.prev_month),class: "btn btn-info" %> 
+  <%= link_to "次月へ ⇨", user_path(date: @first_day.next_month),class: "btn btn-info" %> 
 </div>
 
 <div>
