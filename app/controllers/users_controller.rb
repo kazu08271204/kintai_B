@@ -15,10 +15,7 @@ class UsersController < ApplicationController
   
   
   def show
-    @first_day = Date.current.beginning_of_month
-                 #当日を取得、当月の初日を取得
-    @last_day = @first_day.end_of_month
-                           # 当月の終日を取得
+  
   end
   
   
