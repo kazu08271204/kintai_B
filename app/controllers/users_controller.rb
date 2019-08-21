@@ -15,7 +15,8 @@ class UsersController < ApplicationController
   
   
   def show
-  
+    @worked_sum = @attendances.where.not(started_at: nil).count
+    #1ヶ月分の勤怠データの中で、出勤時間が何も無い状態では無いものの数を代入
   end
   
   
