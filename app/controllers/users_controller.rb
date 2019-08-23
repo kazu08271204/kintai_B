@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+    # アクセスしたユーザーが現在ログインしているユーザーか確認します。
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy] 
     #index,show,edit,updateアクションが実行される直前のみ、logged_in_userが実行
   before_action :correct_user, only: [:edit, :update]
@@ -83,10 +84,10 @@ class UsersController < ApplicationController
  
   # beforeフィルター
 
-  # paramsハッシュからユーザーを取得します。
+ 
   def set_user
     @user = User.find(params[:id])
-     # アクセスしたユーザーが現在ログインしているユーザーか確認します。
+     # paramsハッシュからユーザーを取得します。
   end
 
 
