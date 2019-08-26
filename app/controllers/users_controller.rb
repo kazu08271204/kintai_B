@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
 
+  #controllerでbefore_actionを定義することで、アクションの前に処理を差し込むことができ
   before_action :set_user, only: [:show, :edit, :update, :destroy]
     # アクセスしたユーザーが現在ログインしているユーザーか確認します。
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy] 
@@ -79,38 +80,6 @@ class UsersController < ApplicationController
   def basic_info_params
     params.require(:user).permit(:basic_time, :work_time)
   end
-  
-  
- 
-  # beforeフィルター
-
- 
-  def set_user
-    @user = User.find(params[:id])
-     # paramsハッシュからユーザーを取得します。
-  end
-
-
-   # ログイン済みのユーザーか確認します。
-  def logged_in_user
-    unless logged_in?# unless ~ end 条件式がfalseの時、処理が実行される構文
-      store_location
-      flash[:danger] = "ログインしてください。"# :danger→赤色 
-      redirect_to login_url 
-    end
-  end 
-  
-  # アクセスしたユーザーが現在ログインしているユーザーか確認します。
-  def correct_user
-     @user = User.find(params[:id])
-     redirect_to(root_url) unless current_user?(@user)
-  end
-  
-  # システム管理権限所有かどうか判定します。
-  def admin_user
-    redirect_to root_url unless current_user.admin?
-  end
-  
   
 end 
 
