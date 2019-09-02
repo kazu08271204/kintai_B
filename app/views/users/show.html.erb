@@ -50,7 +50,17 @@
       <% @attendances.each do |day| %>
         <tr>
           <td><%= l(day.worked_on, format: :short) %></td>
-          <td><%= $days_of_the_week[day.worked_on.wday] %></td>
+          
+          <td> 
+            <% if day.worked_on.wday == 6 %>
+              <font color="Blue"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></font>
+            <% elsif day.worked_on.wday == 0 %>
+              <font color="RED"><%= %w{日 月 火 水 木 金 土}[day.worked_on.wday] %></font>
+            <% else %>
+              <%= $days_of_the_week[day.worked_on.wday] %>
+            <% end %>
+          </td>
+         
           <td>
              <% if btn_text = attendance_state(day) %>
                <%= link_to "#{btn_text}登録", user_attendance_path(@user, day), method: :patch, class: "btn btn-primary btn-attendance" %>

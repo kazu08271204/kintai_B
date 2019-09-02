@@ -1,12 +1,12 @@
 class AttendancesController < ApplicationController
   
-  before_action :set_user, only: :edit_one_month
+  before_action :set_user, only: [:edit_one_month, :update_one_month]
   before_action :logged_in_user, only: [:update, :edit_one_month]
   before_action :admin_or_correct_user, only: [:update, :edit_one_month, :update_one_month]
   before_action :set_one_month, only: :edit_one_month
 
   
-  UPDATE_ERROE_MSG = "勤怠登録に失敗しました」。やり直してください。"
+  UPDATE_ERROR_MSG = "勤怠登録に失敗しました」。やり直してください。"
   
   def update
     @user = User.find(params[:user_id])
@@ -18,13 +18,13 @@ class AttendancesController < ApplicationController
                                                                 #何時何分までを表示(秒数を0に変換)            
         flash[:info] = "おはようございます。"
       else
-        flash[:denger] = UPDATE_ERROE_MSG 
+        flash[:danger] = UPDATE_ERROR_MSG 
       end
-    elsif @attendance_finished_at.nil?
+    elsif @attendance.finished_at.nil?
       if @attendance.update_attributes(finished_at: Time.current.change(sec: 0))
         flash[:info] = "お疲れさまでした。"
       else
-        flash[:denger] = UPDATE_ERROE_MSG
+        flash[:danger] = UPDATE_ERROR_MSG
       end
     end
     redirect_to @user
@@ -60,13 +60,12 @@ class AttendancesController < ApplicationController
  # beforeフィルター
  
  # 管理権限者、または現在ログインしているユーザーを許可します。
-  def admin_or_correct_user
+    def admin_or_correct_user
       @user = User.find(params[:user_id]) if @user.blank?
       unless current_user?(@user) || current_user.admin?
         flash[:danger] = "編集権限がありません。"
         redirect_to(root_url)
       end  
-  end
+    end
 end
-
 
