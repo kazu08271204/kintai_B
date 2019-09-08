@@ -11,7 +11,7 @@ class UsersController < ApplicationController
   
   
   def index
-    @users = User.paginate(page: params[:page])
+     @users = query.order(:id).page(params[:page])
   end
   
   
@@ -81,6 +81,14 @@ class UsersController < ApplicationController
     params.require(:user).permit(:basic_time, :work_time)
   end
   
+  
+  def query
+    if params[:user].present? && params[:user][:name]
+      User.where('LOWER(name) LIKE ?', "%#{params[:user][:name].downcase}%")
+    else
+      User.all
+    end
+  end
 end 
 
 

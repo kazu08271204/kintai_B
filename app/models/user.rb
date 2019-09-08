@@ -20,4 +20,7 @@ class User < ApplicationRecord
  
   # 3文字以上かつ50文字以下,nil以外に空文字""にも対応
 
+
+
+
 end

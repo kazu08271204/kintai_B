@@ -6,8 +6,13 @@
 
 <%= will_paginate %>
 
-
-
+  <div class="name_form">
+  <%= form_with model: User.new, method: :get, local: true do |form| %>
+  <%= form.label "ユーザー名検索" %><br>
+  <%= form.text_field :name %>
+  <%= form.submit "検索", {class: "search_name"} %>
+  <% end %>
+  </div>
 
 <ul class="users">
   <% @users.each do |user| %>
