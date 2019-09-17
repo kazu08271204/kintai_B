@@ -6,7 +6,7 @@ class AttendancesController < ApplicationController
   before_action :set_one_month, only: :edit_one_month
 
   
-  UPDATE_ERROR_MSG = "勤怠登録に失敗しました」。やり直してください。"
+  UPDATE_ERROR_MSG = "勤怠登録に失敗しました。やり直してください。"
   
   def update
     @user = User.find(params[:user_id])
@@ -30,23 +30,24 @@ class AttendancesController < ApplicationController
     redirect_to @user
   end
   
+  
  
   def edit_one_month
   end
   
   def update_one_month
-    ActiveRecord::Base.transaction do #トランザクションを開始します
-      attendances_params.each do |id, item|
-        attendance = Attendance.find(id)
-        attendance.update_attributes!(item)
+    @user = User.find(params[:id])
+    if attendances_invalid?
+    attendances_params.each do |id, item|
+      attendance = Attendance.find(id)
+      attendance.update_attributes(item)
       end
-    end
-  
-    flash[:success] = "一か月分の勤怠情報を更新しました。"
-    redirect_to user_url(date: params[:date])
-  rescue ActiveRecord::RecordInvalid  #トランザクションによるエラーの分岐
-      flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
+      flash[:success] = '勤怠情報を更新しました。'
       redirect_to attendances_edit_one_month_user_url(date: params[:date])
+    else
+      flash[:danger] = "不正な時間入力がありました、再入力してください。" 
+      redirect_to attendances_edit_one_month_user_url(date: params[:date])
+    end
   end
   
   private 

@@ -8,6 +8,8 @@ class Attendance < ApplicationRecord
   validates :note, length: { maximum: 50 }
   #最大文字数を50文字
   
+  
+  
   validate :finished_at_is_invalid_without_a_started_at
   #出勤時間存在しない場合、退勤時間は無効
   
@@ -16,9 +18,9 @@ class Attendance < ApplicationRecord
   
   
   def finished_at_is_invalid_without_a_started_at
-    errors.add(:started_at,"が必要です") if started_at.blank? && finished_at.present? 
+    errors.add(:started_at, "が必要です") if started_at.blank? && finished_at.present?
   end
-  
+
   
   def started_at_than_finished_at_fast_if_invalid
     if started_at.present? && finished_at.present?
