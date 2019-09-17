@@ -43,7 +43,7 @@ class AttendancesController < ApplicationController
       attendance.update_attributes(item)
       end
       flash[:success] = '勤怠情報を更新しました。'
-      redirect_to attendances_edit_one_month_user_url(date: params[:date])
+      redirect_to user_url(date: params[:date])
     else
       flash[:danger] = "不正な時間入力がありました、再入力してください。" 
       redirect_to attendances_edit_one_month_user_url(date: params[:date])
